@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <h1 class="text-3xl font-bold mb-4">Dice Game</h1>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+                <h2 class="text-xl">Player 1</h2>
+                <img id="dice1" src="C:\Users\User\Desktop\DiceGameWeb\dice-G.gif" alt="Dice showing 1" class="w-24 h-24 mx-auto">
+                <p>Score: <span id="score1">0</span></p>
+                <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onclick="rollDice(1)">Roll Dice</button>
+            </div>
+            <div>
+                <h2 class="text-xl">Player 2</h2>
+                <img id="dice2" src="C:\Users\User\Desktop\DiceGameWeb\dice-G.gif" alt="Dice showing 1" class="w-24 h-24 mx-auto">
+                <p>Score: <span id="score2">0</span></p>
+                <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onclick="rollDice(2)">Roll Dice</button>
+            </div>
+            <div>
+                <h2 class="text-xl">Player 3</h2>
+                <img id="dice3" src="C:\Users\User\Desktop\DiceGameWeb\dice-G.gif" alt="Dice showing 1" class="w-24 h-24 mx-auto">
+                <p>Score: <span id="score3">0</span></p>
+                <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onclick="rollDice(3)">Roll Dice</button>
+            </div>
+            <div>
+                <h2 class="text-xl">Player 4</h2>
+                <img id="dice4" src="C:\Users\User\Desktop\DiceGameWeb\dice-G.gif" alt="Dice showing 1" class="w-24 h-24 mx-auto">
+                <p>Score: <span id="score4">0</span></p>
+                <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onclick="rollDice(4)">Roll Dice</button>
+            </div>
+        </div>
+        <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded" onclick="resetGame()">Reset Game</button>
+        <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded" onclick="showResult()">Show Result</button>
+        <p id="winner" class="mt-4 text-2xl font-bold"></p>
+    </div>
+    <script>
+        const diceImages = [
+            'dice-one.png', // Dice 1
+            'dice-two.png', // Dice 2
+            'dice-three.png', // Dice 3
+            'dice-four.png', // Dice 4
+            'dice-five.png', // Dice 5
+            'dice-six.png'  // Dice 6
+        ];
+        let scores = [0, 0, 0, 0];
+
+        function rollDice(player) {
+            const score = Math.floor(Math.random() * 6) + 1;
+            scores[player - 1] = score;
+            document.getElementById(`score${player}`).innerText = score;
+            document.getElementById(`dice${player}`).src = diceImages[score - 1];
+           // document.getElementById(`dice${player}`).alt = `Dice showing ${score}`;
+        }
+
+        function resetGame() {
+            scores = [0, 0, 0, 0]; 
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`score${i}`).innerText = 0;
+                document.getElementById(`dice${i}`).src = diceImages[0];
+                document.getElementById(`dice${i}`).alt = `Dice showing 1`;
+            }
+            document.getElementById('winner').innerText = '';
+        }
+
+        function showResult() {
+            const maxScore = Math.max(...scores);
+            const winners = scores.map((score, index) => score === maxScore ? index + 1 : null).filter(player => player !== null);
+            if (winners.length === 1) {
+                document.getElementById('winner').innerText = `Player ${winners[0]} Wins!`;
+            } else if (winners.length > 1) {
+                document.getElementById('winner').innerText = `It's a tie between Players ${winners.join(', ')}!`;
+            }
+        }
+    </script>
+</body>
+</html>
